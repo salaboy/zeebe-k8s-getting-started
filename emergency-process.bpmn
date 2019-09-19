@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1kob9kf" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.6.2">
+  <bpmn:process id="EMERGENCY_PROCESS" name="Emergecy Process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Emergency Reported">
+      <bpmn:outgoing>SequenceFlow_1kfpnnj</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="ServiceTask_0qrwam7" name="Classify Emergency">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="classify" />
+        <zeebe:taskHeaders>
+          <zeebe:header />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1kfpnnj</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_18oq9dv</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1kfpnnj" sourceRef="StartEvent_1" targetRef="ServiceTask_0qrwam7" />
+    <bpmn:serviceTask id="ServiceTask_08kagb7" name="Coordinate With Hospital">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="hospital" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_113qjg3</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0xo4771</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_1h8bdsf" name="Person in Hospital">
+      <bpmn:incoming>SequenceFlow_0xo4771</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0xo4771" sourceRef="ServiceTask_08kagb7" targetRef="EndEvent_1h8bdsf" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1qo9hai">
+      <bpmn:incoming>SequenceFlow_18oq9dv</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_113qjg3</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0dlz63c</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_18oq9dv" sourceRef="ServiceTask_0qrwam7" targetRef="ExclusiveGateway_1qo9hai" />
+    <bpmn:sequenceFlow id="SequenceFlow_113qjg3" name="injured person" sourceRef="ExclusiveGateway_1qo9hai" targetRef="ServiceTask_08kagb7">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">emergencyType == "Injured"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="ServiceTask_0w2zgz6" name="Coordinate with  FireFightters">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="firefighters" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0dlz63c</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0nybe3i</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0dlz63c" name="building on fire" sourceRef="ExclusiveGateway_1qo9hai" targetRef="ServiceTask_0w2zgz6">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">emergencyType == "Fire"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="EndEvent_1r97jjl" name="Fire is extinguished">
+      <bpmn:incoming>SequenceFlow_0nybe3i</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0nybe3i" sourceRef="ServiceTask_0w2zgz6" targetRef="EndEvent_1r97jjl" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="EMERGENCY_PROCESS">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="103" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="169" y="146" width="56" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0qrwam7_di" bpmnElement="ServiceTask_0qrwam7">
+        <dc:Bounds x="265" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1kfpnnj_di" bpmnElement="SequenceFlow_1kfpnnj">
+        <di:waypoint x="215" y="121" />
+        <di:waypoint x="265" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_08kagb7_di" bpmnElement="ServiceTask_08kagb7">
+        <dc:Bounds x="544" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1h8bdsf_di" bpmnElement="EndEvent_1h8bdsf">
+        <dc:Bounds x="705" y="103" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="678" y="146" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0xo4771_di" bpmnElement="SequenceFlow_0xo4771">
+        <di:waypoint x="644" y="121" />
+        <di:waypoint x="705" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1qo9hai_di" bpmnElement="ExclusiveGateway_1qo9hai" isMarkerVisible="true">
+        <dc:Bounds x="403" y="96" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_18oq9dv_di" bpmnElement="SequenceFlow_18oq9dv">
+        <di:waypoint x="365" y="121" />
+        <di:waypoint x="403" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_113qjg3_di" bpmnElement="SequenceFlow_113qjg3">
+        <di:waypoint x="453" y="121" />
+        <di:waypoint x="544" y="121" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="465" y="92" width="70" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0w2zgz6_di" bpmnElement="ServiceTask_0w2zgz6">
+        <dc:Bounds x="544" y="191" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0dlz63c_di" bpmnElement="SequenceFlow_0dlz63c">
+        <di:waypoint x="428" y="146" />
+        <di:waypoint x="428" y="231" />
+        <di:waypoint x="544" y="231" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="452" y="206" width="72" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1r97jjl_di" bpmnElement="EndEvent_1r97jjl">
+        <dc:Bounds x="705" y="213" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="692" y="256" width="62" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0nybe3i_di" bpmnElement="SequenceFlow_0nybe3i">
+        <di:waypoint x="644" y="231" />
+        <di:waypoint x="705" y="231" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
