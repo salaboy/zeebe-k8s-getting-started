@@ -1,5 +1,5 @@
 ---
-zeebe-cluster-k8s-helm: 
+zeebe-cluster: 
   elasticsearch: 
     imageTag: 6.8.3 
 # Permit co-located instances for solitary minikube virtual machines.
