@@ -1,10 +1,16 @@
 # Zeebe on k8s with HELM Getting Started Guide
 This repository contains some files for the Zeebe on Kubernetes Getting Started Guide. 
+![Zeebe on K8s](imgs/zeebe-on-k8s.png)
 
 # Pre Requisites
 - Git / Java / Maven
 - Kubernetes Cluster + `kubectl`
+  - Local: [Kubernetes KIND](https://github.com/kubernetes-sigs/kind), Minikube, MicroK8s
+  - Remote: GKE, Azure, EKS
 - HELM cli 
+- (Optional) Zeebe Modeler
+- (Optional) Zeebe CTL
+- (Optional) Spring Boot Zeebe Worker
 
 You can run this guide against any Kubernetes Cluster. 
 
