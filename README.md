@@ -32,7 +32,7 @@ In order to run a simple demo based on the `emergency-process.bpmn` file provide
 
 NOTE: change <RELEASE NAME> with a name of your choice
 
-If you are using Kubernetes KIND]() add `-f kind-values.yaml`
+If you are using Kubernetes KIND](https://github.com/kubernetes-sigs/kind) add `-f kind-values.yaml`
 > helm install --name <RELEASE NAME> zeebe/zeebe-full -f kind-values.yaml
 
 ### Zeebe Modeler
