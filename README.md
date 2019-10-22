@@ -1,5 +1,6 @@
-# Zeebe on k8s with HELM Getting Started Guide
-This repository contains some files for the Zeebe on Kubernetes Getting Started Guide. 
+# Zeebe on Kubernetes 
+This repository contains the links to get an example application with Zeebe running inside a Kubernetes Cluster. This example also includes an example Workflow Definition and links to a Zeebe Worker based on Spring Boot. This example also includes the use of the Zeebe Modeler and the `zbctl` command line tool. 
+
 ![Zeebe on K8s](imgs/zeebe-on-k8s.png)
 
 # Pre Requisites
@@ -12,36 +13,13 @@ This repository contains some files for the Zeebe on Kubernetes Getting Started 
 - (Optional) Zeebe CTL
 - (Optional) Spring Boot Zeebe Worker
 
-You can run this guide against any Kubernetes Cluster. 
+You can run this example against any Kubernetes Cluster. 
 
 You can also find a Spring Boot Worker which implements the `classify`, `hospital` and `firefighters` workers for the `BPMN Service Tasks` included in the example process here [Zeebe Spring Boot Example Worker](https://github.com/salaboy/zeebe-worker-spring-boot-example)
 
+# Install Zeebe Helm Charts into your Kubernetes Cluster
 
-In order to run a simple demo based on the `emergency-process.bpmn` file provided in this repository you can run the following commands:
-
-### Install HELM in your cluster (if you don't have it already)
-```
-> kubectl apply -f helm-service-account-role.yaml
-> helm init --service-account helm --upgrade 
-```
-
-### Add Zeebe HELM Repository
-```
-> helm repo add zeebe https://helm.zeebe.io
-> helm repo update
-```
-
-### Install Zeebe Full HELM Chart (Zeebe Cluster + Operate + Ingress Controller)
-```
-> helm install --name <RELEASE NAME> zeebe/zeebe-full
-```
-
-NOTE: change <RELEASE NAME> with a name of your choice
-
-If you are using [Kubernetes KIND](https://github.com/kubernetes-sigs/kind) add `-f kind-values.yaml`
-```
-> helm install --name <RELEASE NAME> zeebe/zeebe-full -f kind-values.yaml
-```
+Follow the official documentation on how to install the official [Zeebe  Helm Charts](https://stage.docs.zeebe.io/kubernetes/README.html) into Kubernetes. 
 
 ### Zeebe Modeler
 If you are in Mac OSX you can install it with homebrew:
@@ -51,9 +29,9 @@ If you are in Mac OSX you can install it with homebrew:
 
 Or download from here: [Zeebe Modeler Releases](https://github.com/zeebe-io/zeebe-modeler/releases)
 
-You can open and modify the `emergency-process.bpmn` file with it now. 
+You can open and modify the [`emergency-process.bpmn`]() file with it now. 
 
-### Check that Pods are up and running: 
+## Checking Zeebe Installation
 ```
 > kubectl get pods
 ```
@@ -72,7 +50,7 @@ elasticsearch-master-2                                 1/1     Running   0      
 <RELEASE NAME>-zeebe-2                                        1/1     Running   0          10m
 ```
 
-### Interact with the services inside the Cluster
+## Interact with the services inside the Cluster
 In order to interact with the services inside the cluster you need to use `port-forward` to route traffic from your environment to the cluster. 
 ```
 > kubectl port-forward svc/<RELEASE NAME>-zeebe 26500:26500
@@ -81,12 +59,12 @@ In order to interact with the services inside the cluster you need to use `port-
 Now you can connect and execute operations against your newly created Zeebe cluster. 
 Notice that you need to keep running the `port-forward` command to be able to communicate with the remote cluster.
 
-### Zeebe CLI - Command Line Interface (zbctl)
+### Using the Zeebe CLI - Command Line Interface (zbctl)
 You can get the `zbctl` tool from the official [Zeebe Release Page](https://github.com/zeebe-io/zeebe/releases) 
 
 `zbctl` by default is configured to point to `localhost:26500` to interact with a cluster, and because we are running `port-forward` from our environment to the cluster, our `26500` port is redirected to the cluster service. 
 
-Download and add `zbctl` to your path, and now you can check the connection with your cluster:
+Download and add `zbctl` to your `PATH`, and now you can check the connection with your cluster:
 ```
 > zbctl status --insecure
 ```
@@ -126,7 +104,7 @@ or/and
 > zbctl create instance EMERGENCY_PROCESS --variables "{\"emergencyReason\" : \"building on fire\"}" --insecure
 ```
 
-### Accessing Operate from outside the cluster
+## Accessing Operate from outside the cluster
 The `Zeebe Full HELM Charts` install an Ingress Controller. If this is deployed in a cloud provider, it should provision a LoadBalancer which will expose an External IP that can be used as the main entry point to access all the services/applications that are configured to have Ingress Routes. 
 
 You can find the External IP by running: 
@@ -161,7 +139,6 @@ Clone and run the Simple Zeebe Spring Boot Worker:
 > cd  zeebe-worker-spring-boot-example/
 > mvn spring-boot:run
 ```
-
 
 Once again, the worker is configured by default to connect to `localhost:26500` to fetch Jobs. If everything is up and running the worker will start and connect, automatically completing the pending tasks in our Workflow Instances. 
 If you refresh Operate (http://localhost:8080) you will find both Instances completed:
