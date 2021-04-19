@@ -29,7 +29,7 @@ If you are in Mac OSX you can install it with homebrew:
 
 Or download from here: [Zeebe Modeler Releases](https://github.com/zeebe-io/zeebe-modeler/releases)
 
-You can open and modify the [`emergency-process.bpmn`]() file with it now. 
+You can open and modify the [`emergency-process.bpmn`](https://github.com/salaboy/zeebe-k8s-getting-started/blob/master/emergency-process.bpmn) file with it now. 
 
 ## Checking Zeebe Installation
 ```
@@ -51,7 +51,7 @@ elasticsearch-master-2                                 1/1     Running   0      
 ```
 
 ## Interact with the services inside the Cluster
-In order to interact with the services inside the cluster you need to use `port-forward` to route traffic from your environment to the cluster. 
+In order to interact with the services inside the cluster you need to use `port-forward` to route traffic from your environment to the cluster. By default, the Zeebe Cluster is not exposed, even if you have deployed the Zeebe Full Helm Chart which includes an Ingress Controller. 
 ```
 > kubectl port-forward svc/<RELEASE NAME>-zeebe 26500:26500
 ```

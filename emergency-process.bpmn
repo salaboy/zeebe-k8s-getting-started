@@ -33,7 +33,7 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_18oq9dv" sourceRef="ServiceTask_0qrwam7" targetRef="ExclusiveGateway_1qo9hai" />
     <bpmn:sequenceFlow id="SequenceFlow_113qjg3" name="injured person" sourceRef="ExclusiveGateway_1qo9hai" targetRef="ServiceTask_08kagb7">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">emergencyType == "Injured"</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=emergencyType = "Injured"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="ServiceTask_0w2zgz6" name="Coordinate with  FireFightters">
       <bpmn:extensionElements>
@@ -43,7 +43,7 @@
       <bpmn:outgoing>SequenceFlow_0nybe3i</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0dlz63c" name="building on fire" sourceRef="ExclusiveGateway_1qo9hai" targetRef="ServiceTask_0w2zgz6">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">emergencyType == "Fire"</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=emergencyType = "Fire"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:endEvent id="EndEvent_1r97jjl" name="Fire is extinguished">
       <bpmn:incoming>SequenceFlow_0nybe3i</bpmn:incoming>
